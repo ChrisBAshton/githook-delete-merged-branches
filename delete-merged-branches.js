@@ -19,5 +19,9 @@ module.exports = function (data, process) {
                 process.succeed('DELETE message successful. Response:' + body);
             }
         });
+
+    }
+    else {
+        process.succeed('Nothing to do here.');
     }
 };
