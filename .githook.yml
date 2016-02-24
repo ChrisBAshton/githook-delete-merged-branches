@@ -1,0 +1,11 @@
+title: Delete Merged Branches
+
+description: 'When a PR is merged, the merged branch is automatically deleted.'
+
+entry_point: delete-merged-branches.js
+
+triggered_on:
+  - 'pull_request'
+
+scopes_required:
+  - 'repo'
