@@ -13,7 +13,7 @@ module.exports = function (data, process) {
             }
         };
 
-        request.delete(options, function branchDeleted(err, httpResponse, body) {
+        request.del(options, function branchDeleted(err, httpResponse, body) {
             if (err) {
                 process.fail('Could not send POST request: ' + err);
             }
