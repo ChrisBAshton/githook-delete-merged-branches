@@ -3,7 +3,8 @@ module.exports = function (data, process) {
     if (data.payload.action === 'closed' && data.payload.pull_request.merged) {
 
         var git_refs_url = data.payload.repository.git_refs_url,
-            constructed_url = git_refs_url.replace('{/sha}', '/heads/' + data.payload.pull_request.head.ref),
+            branch_name  = data.payload.pull_request.head.ref,
+            constructed_url = git_refs_url.replace('{/sha}', '/heads/' + branch_name),
             options = {
             url: constructed_url,
             headers: {
@@ -18,7 +19,7 @@ module.exports = function (data, process) {
                 process.fail('Could not send POST request: ' + err);
             }
             else {
-                process.succeed('DELETE message successful. Response:' + body);
+                process.succeed('The "' + branch_name + '" branch was successfully deleted after merging #' + data.payload.pull_request.number);
             }
         });
 
