@@ -2,8 +2,10 @@ module.exports = function (data, process) {
 
     if (data.payload.action === 'closed' && data.payload.pull_request.merged) {
 
-        var options = {
-            url: data.payload.git_refs_url.replace('{/sha}', '/heads/' + data.payload.pull_request.head.ref),
+        var git_refs_url = data.payload.repository.git_refs_url,
+            constructed_url = git_refs_url.replace('{/sha}', '/heads/' + data.payload.pull_request.head.ref),
+            options = {
+            url: constructed_url,
             headers: {
                 'Content-Type':  'application/json',
                 'User-Agent':    'delete-merged-branches',
