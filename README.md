@@ -1,3 +1,5 @@
+[![GitHooks.io](http://githooks.io/validate/ChrisBAshton/githook-delete-merged-branches/img)](http://githooks.io/githooks/ChrisBAshton/githook-delete-merged-branches)
+
 # Delete Merged Branches
 This [GitHook](http://githooks.io) automatically deletes branches after they have been merged via a pull request.
 
