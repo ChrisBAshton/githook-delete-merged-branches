@@ -1,30 +1,22 @@
-module.exports = function (data, process) {
+module.exports = function (gh) {
 
-    if (data.payload.action === 'closed' && data.payload.pull_request.merged) {
+    if (gh.data.payload.action === 'closed' && gh.data.payload.pull_request.merged) {
 
-        var git_refs_url = data.payload.repository.git_refs_url,
-            branch_name  = data.payload.pull_request.head.ref,
-            constructed_url = git_refs_url.replace('{/sha}', '/heads/' + branch_name),
-            options = {
-            url: constructed_url,
-            headers: {
-                'Content-Type':  'application/json',
-                'User-Agent':    'delete-merged-branches',
-                'Authorization': 'token ' + data.access_token
-            }
-        };
+        var git_refs_url = gh.data.payload.repository.git_refs_url,
+            branch_name  = gh.data.payload.pull_request.head.ref,
+            constructed_url = git_refs_url.replace('{/sha}', '/heads/' + branch_name);
 
-        request.del(options, function branchDeleted(err, httpResponse, body) {
+        gh.modules.authRequest.del(constructed_url, function branchDeleted(err, httpResponse, body) {
             if (err) {
-                process.fail('Could not send POST request: ' + err);
+                gh.process.fail('Could not send POST request: ' + err);
             }
             else {
-                process.succeed('The "' + branch_name + '" branch was successfully deleted after merging #' + data.payload.pull_request.number);
+                gh.process.succeed('The "' + branch_name + '" branch was successfully deleted after merging #' + gh.data.payload.pull_request.number);
             }
         });
 
     }
     else {
-        process.succeed('Nothing to do here.');
+        gh.process.succeed('Nothing to do here.');
     }
 };
